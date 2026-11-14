@@ -177,3 +177,5 @@ footer { background: var(--band); padding: 24px 0; font-size: 14px; color: #2B32
 .list li span { flex: 1; }
 .btn.small { min-height: 36px; padding: 0 14px; font-size: 14px; }
 .btn.gray { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+/* 숨기기 설정이 항상 이기게 */
+[hidden] { display: none !important; }
