@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>공지 · 샐비어 캘린더</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=5">
+</head>
+<body>
+  <div class="band">
+    <div class="wrap">
+      <header class="top">
+        <a class="logo" href="index.html">샐비어 캘린더</a>
+        <a class="pill" href="index.html">홈</a>
+      </header>
+      <h1 class="page-title">공지</h1>
+      <p class="sub" style="padding-bottom:16px"><span id="pick-label"></span> · 공지는 날짜 5일 뒤 자동으로 정리돼요.</p>
+    </div>
+  </div>
+
+  <main class="wrap narrow" style="padding-top:24px;padding-bottom:56px">
+    <div id="filters" role="group" aria-label="공지 범위">
+      <button type="button" data-f="all" aria-pressed="true">전체</button>
+      <button type="button" data-f="school" aria-pressed="false">학교 전체</button>
+      <button type="button" data-f="class" aria-pressed="false">우리 학년·반</button>
+    </div>
+    <section id="notice-full"></section>
+  </main>
+
+  <script type="module" src="js/notice.js"></script>
+</body>
+</html>
