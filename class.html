@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>반 페이지 · 샐비어 캘린더</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="with-nav">
+  <div class="band">
+    <div class="wrap">
+      <header class="top">
+        <a class="logo" href="index.html">샐비어 캘린더</a>
+        <a class="pill" href="index.html">홈</a>
+        <a class="pill" href="notice.html">공지</a>
+      </header>
+      <h1 id="class-title" class="page-title">반 일정</h1>
+      <div class="tools">
+        <input id="search" type="search" placeholder="과목, 수행평가, 공지 검색" aria-label="검색">
+        <button type="button" id="report-open" class="btn">제보하기</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <div id="search-results"></div>
+    <p id="notice-strip"></p>
+
+    <form id="report-form" class="card" hidden>
+      <h2>제보하기</h2>
+      <label for="report-kind">종류</label>
+      <select id="report-kind" name="kind">
+        <option>시험범위</option><option>수행평가</option><option>공지</option><option>기타</option>
+      </select>
+      <label for="report-body">내용</label>
+      <textarea id="report-body" name="body" rows="3" maxlength="500" required placeholder="예: 수학 시험범위가 선생님이 말씀하신 것과 달라요"></textarea>
+      <button type="submit" class="btn">보내기</button>
+      <p id="report-msg" role="status"></p>
+    </form>
+
+    <section id="tasks" class="card">
+      <h2>다가오는 수행평가 <small id="task-count"></small></h2>
+      <div class="bar"><div id="task-bar"></div></div>
+      <ul id="task-list"></ul>
+    </section>
+
+    <section id="range" class="card">
+      <h2>시험범위</h2>
+      <div id="subject-chips" role="group" aria-label="과목 선택"></div>
+      <div id="range-list"></div>
+    </section>
+
+    <section id="calendar" class="card">
+      <div class="cal-head">
+        <button type="button" id="cal-prev" aria-label="이전 달">‹</button>
+        <h2 id="cal-title"></h2>
+        <button type="button" id="cal-next" aria-label="다음 달">›</button>
+      </div>
+      <div id="cal-grid" class="cal"></div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="하단 메뉴">
+    <a href="index.html">홈</a>
+    <a href="#range">시험범위</a>
+    <a href="#tasks">수행평가</a>
+    <a href="#calendar">달력</a>
+  </nav>
+
+  <script type="module" src="js/class.js"></script>
+</body>
+</html>
