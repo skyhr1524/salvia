@@ -89,3 +89,27 @@
   <script type="module" src="js/admin.js"></script>
 </body>
 </html>
+      <ul id="request-list" class="list"></ul>
+    </section>
+    
+    <section id="exams" class="card" hidden style="margin-top:24px">
+      <h2>시험 일정</h2>
+      <p class="sub">홈의 노란 카드에는 아직 안 끝난 시험 중 가장 빠른 것이 나와요.</p>
+      <ul id="exam-list" class="list"></ul>
+      <form id="exam-form" class="form" style="margin-top:16px">
+        <label for="ex-name">새 시험 이름</label>
+        <input id="ex-name" required placeholder="예: 1학기 중간고사">
+        <div class="row2">
+          <div>
+            <label for="ex-start">첫날</label>
+            <input id="ex-start" type="date" required>
+          </div>
+          <div>
+            <label for="ex-end">마지막 날</label>
+            <input id="ex-end" type="date" required>
+          </div>
+        </div>
+        <button type="submit" class="btn">시험 추가하기</button>
+        <p id="exam-msg" role="status"></p>
+      </form>
+    </section>
