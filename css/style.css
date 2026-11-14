@@ -154,3 +154,26 @@ footer { background: var(--band); padding: 24px 0; font-size: 14px; color: #2B32
   .bottom-nav a { min-height: 52px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
   body.with-nav { padding-bottom: 72px; }
 }
+/* ===== 로그인 · 관리자 ===== */
+.narrow { max-width: 520px; }
+.form { display: flex; flex-direction: column; gap: 10px; }
+.form label { font-weight: 600; font-size: 15px; }
+.form input, .form select, .form textarea { font: inherit; min-height: 48px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+.form .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.form .row2 > div { display: flex; flex-direction: column; gap: 6px; }
+.msg { margin: 0; padding: 12px 14px; border-radius: 12px; background: var(--band); }
+.msg:empty { display: none; }
+.msg.error { background: #FEF3F2; color: #B42318; }
+.tabs { display: flex; gap: 6px; margin-bottom: 16px; }
+.tabs button { flex: 1; min-height: 44px; border-radius: 999px; border: 1px solid var(--line); background: #fff; font: inherit; font-weight: 600; cursor: pointer; }
+.tabs button[aria-pressed="true"] { background: var(--indigo); color: #fff; border-color: var(--indigo); }
+.kind-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; border: 0; margin: 0; padding: 0; }
+.kind-group legend { font-weight: 600; margin-bottom: 8px; }
+.kind-group label { display: flex; align-items: center; justify-content: center; min-height: 52px; border: 2px solid var(--line); border-radius: 14px; background: #fff; cursor: pointer; }
+.kind-group input { position: absolute; opacity: 0; }
+.kind-group label:has(input:checked) { border-color: var(--orange); background: #FFF4E3; }
+.list { list-style: none; margin: 0; padding: 0; }
+.list li { display: flex; align-items: center; gap: 10px; min-height: 52px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+.list li span { flex: 1; }
+.btn.small { min-height: 36px; padding: 0 14px; font-size: 14px; }
+.btn.gray { background: #fff; color: var(--ink); border: 1px solid var(--line); }
