@@ -1,74 +1,91 @@
-import { supabase } from './supabase.js';
-import { todayStr, dday, mmdd, esc, getPick, setPick, forClass } from './util.js';
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>샐비어 캘린더</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="band">
+    <div class="wrap">
+      <header class="top">
+        <a class="logo" href="index.html">샐비어 캘린더</a>
+        <a class="pill" href="notice.html">공지</a>
+        <a class="pill" href="login.html">관리자 로그인</a>
+      </header>
+      <div class="hero">
+        <h1>시험·수행평가 알리미</h1>
+        <p>시험범위, 수행평가 마감, 시험 D-day를 한곳에서 확인해요.</p>
+      </div>
+    </div>
+  </div>
 
-const $ = (sel) => document.querySelector(sel);
-const pick = getPick() ?? { grade: 2, cls: 7 };
-const today = todayStr();
+  <nav class="quick" aria-label="바로가기">
+    <div class="wrap">
+      <a href="#pick">
+        <span class="tile"><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#2E3A6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="6" r="2.5" fill="#F7C948"/><path d="M8.5 13a3.5 3.5 0 0 1 7 0"/><circle cx="6" cy="15.5" r="2.2" fill="#F7C948"/><circle cx="18" cy="15.5" r="2.2" fill="#F7C948"/><path d="M2.5 21.5a3.5 3.5 0 0 1 7 0M14.5 21.5a3.5 3.5 0 0 1 7 0"/></svg></span>
+        반 선택
+      </a>
+      <a data-to="#range" href="class.html">
+        <span class="tile"><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#2E3A6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5.5c3-1.3 6-1.3 9 0v14c-3-1.3-6-1.3-9 0z" fill="#F2A65A" fill-opacity="0.7"/><path d="M12 5.5c3-1.3 6-1.3 9 0v14c-3-1.3-6-1.3-9 0z"/><path d="M14.5 9h4M14.5 12h4M5.5 9h4"/></svg></span>
+        시험범위
+      </a>
+      <a data-to="#tasks" href="class.html">
+        <span class="tile"><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#2E3A6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="4" width="15" height="17.5" rx="2"/><rect x="8.5" y="2.5" width="7" height="3.5" rx="1" fill="#F2A65A"/><path d="M8.5 13l2.5 2.5 4.5-5"/></svg></span>
+        수행평가
+      </a>
+      <a data-to="#calendar" href="class.html">
+        <span class="tile"><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#2E3A6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 5h18v5H3z" fill="#F7C948"/><path d="M8 3v4M16 3v4"/><circle cx="15.5" cy="15.5" r="1.8" fill="#F2A65A"/></svg></span>
+        통합 달력
+      </a>
+      <a href="notice.html">
+        <span class="tile"><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#2E3A6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10v4h3l7 4.5v-13L6.5 10z" fill="#F7C948"/><path d="M17 9a4 4 0 0 1 0 6M19.5 6.5a7.5 7.5 0 0 1 0 11"/><path d="M6.5 14l1.5 5.5h2.5L9.5 15"/></svg></span>
+        공지
+      </a>
+      <a href="login.html">
+        <span class="tile"><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#2E3A6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5l7.5 3v6c0 4.5-3.2 8.3-7.5 10-4.3-1.7-7.5-5.5-7.5-10v-6z" fill="#F2A65A" fill-opacity="0.7"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.2 11V9.5a1.8 1.8 0 0 1 3.6 0V11"/></svg></span>
+        관리자
+      </a>
+    </div>
+  </nav>
 
-// 1) 아이콘 메뉴: 마지막으로 본 반으로 연결
-document.querySelectorAll('[data-to]').forEach((a) => {
-  a.href = `class.html?grade=${pick.grade}&cls=${pick.cls}${a.dataset.to}`;
-});
+  <main class="wrap">
+    <div class="row">
+      <section class="grow">
+        <div class="month">
+          <h2 id="month-title"></h2>
+          <ol id="date-strip" aria-label="이번 달 날짜"></ol>
+        </div>
+        <ul id="events" aria-label="다가오는 일정"></ul>
+      </section>
+      <section class="dday-card">
+        <h2>다가오는 시험</h2>
+        <p id="exam-name">불러오는 중…</p>
+        <p id="exam-dday"></p>
+        <p id="exam-range"></p>
+      </section>
+    </div>
 
-// 2) 학년·반 버튼
-let grade = pick.grade;
-function renderPicker() {
-  $('#grade-buttons').innerHTML = [1, 2, 3].map((g) =>
-    `<button type="button" data-grade="${g}" aria-pressed="${g === grade}">${g}학년</button>`).join('');
-  $('#class-buttons').innerHTML = Array.from({ length: 13 }, (_, i) => i + 1).map((c) =>
-    `<a href="class.html?grade=${grade}&cls=${c}" data-cls="${c}">${c}반</a>`).join('');
-}
-$('#grade-buttons').addEventListener('click', (e) => {
-  const b = e.target.closest('[data-grade]');
-  if (b) { grade = Number(b.dataset.grade); renderPicker(); }
-});
-$('#class-buttons').addEventListener('click', (e) => {
-  const a = e.target.closest('[data-cls]');
-  if (a) setPick(grade, Number(a.dataset.cls));
-});
-renderPicker();
+    <div class="row">
+      <section class="grow news">
+        <h2>공지사항</h2>
+        <ul id="notice-list"></ul>
+      </section>
+      <section id="pick">
+        <h2>우리 반 일정 보러 가기</h2>
+        <p>학년과 반을 고르면 바로 열려요.</p>
+        <div id="grade-buttons" role="group" aria-label="학년 선택"></div>
+        <div id="class-buttons"></div>
+      </section>
+    </div>
+  </main>
 
-// 3) 노란 카드: 아직 안 끝난 시험 중 가장 빠른 것
-const { data: exams } = await supabase.from('exams').select('*')
-  .gte('end_date', today).order('start_date').limit(1);
-const exam = exams?.[0];
-if (exam) {
-  $('#exam-name').textContent = exam.name;
-  $('#exam-dday').textContent = dday(exam.start_date);
-  $('#exam-range').textContent = `${exam.start_date.slice(5).replace('-', '월 ')}일 ~ ${exam.end_date.slice(5).replace('-', '월 ')}일`;
-} else {
-  $('#exam-name').textContent = '예정된 시험이 없어요';
-}
+  <footer>
+    <div class="wrap">샐비어 캘린더 · 학생 관리자와 선생님이 함께 운영해요.</div>
+  </footer>
 
-// 4) 다가오는 일정 6개 (마지막으로 본 반 기준)
-const { data: eventRows } = await forClass(
-  supabase.from('posts').select('subject, title, due_date')
-    .gte('due_date', today).order('due_date').limit(6),
-  pick.grade, pick.cls);
-const events = eventRows ?? [];
-$('#events').innerHTML = events.length
-  ? events.map((p) => `<li><span class="chip">${mmdd(p.due_date)}</span>${esc(p.subject ?? '')} ${esc(p.title)}</li>`).join('')
-  : '<li>다가오는 일정이 없어요.</li>';
-
-// 5) 날짜 띠: 이번 달 1일~마지막 날
-const [y, m] = today.split('-').map(Number);
-$('#month-title').textContent = `${y}.${String(m).padStart(2, '0')}`;
-const lastDay = new Date(y, m, 0).getDate();
-const eventDays = new Set(events.map((p) => p.due_date));
-$('#date-strip').innerHTML = Array.from({ length: lastDay }, (_, i) => {
-  const d = i + 1;
-  const ds = `${today.slice(0, 8)}${String(d).padStart(2, '0')}`;
-  const dow = new Date(y, m - 1, d).getDay();
-  const cls = [dow === 0 && 'sun', dow === 6 && 'sat', ds === today && 'today', eventDays.has(ds) && 'has-event']
-    .filter(Boolean).join(' ');
-  return `<li class="${cls}">${String(d).padStart(2, '0')}</li>`;
-}).join('');
-
-// 6) 공지 최신 5개
-const { data: notices } = await forClass(
-  supabase.from('posts').select('title, created_at').eq('kind', 'notice')
-    .order('created_at', { ascending: false }).limit(5),
-  pick.grade, pick.cls);
-$('#notice-list').innerHTML = (notices ?? []).length
-  ? notices.map((n) => `<li><span class="title">${esc(n.title)}</span><span class="date">${n.created_at.slice(0, 10).replaceAll('-', '.')}</span></li>`).join('')
-  : '<li>아직 공지가 없어요.</li>';
+  <script type="module" src="js/home.js"></script>
+</body>
+</html>
