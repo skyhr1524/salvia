@@ -179,3 +179,13 @@ footer { background: var(--band); padding: 24px 0; font-size: 14px; color: #2B32
 .btn.gray { background: #fff; color: var(--ink); border: 1px solid var(--line); }
 /* 숨기기 설정이 항상 이기게 */
 [hidden] { display: none !important; }
+/* ===== 공지 페이지 ===== */
+#filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+#filters button { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); background: #fff; font: inherit; cursor: pointer; }
+#filters button[aria-pressed="true"] { background: var(--indigo); color: #fff; border-color: var(--indigo); font-weight: 600; }
+#notice-full details { background: #fff; border-radius: 16px; margin-bottom: 10px; overflow: hidden; }
+#notice-full summary { padding: 16px 18px; cursor: pointer; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; list-style: none; }
+#notice-full summary::-webkit-details-marker { display: none; }
+#notice-full summary strong { flex: 1 1 200px; }
+#notice-full summary small { color: var(--muted); }
+#notice-full details p { margin: 0; padding: 0 18px 18px; white-space: pre-line; line-height: 1.7; }
