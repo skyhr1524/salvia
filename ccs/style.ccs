@@ -1,0 +1,86 @@
+:root {
+  --band: #E9EBF7; --indigo: #4F56A8; --blue: #4B6A9F; --teal: #5E9FA7;
+  --orange: #F2A65A; --today: #E06A1E; --yellow: #F2CB5C;
+  --ink: #111418; --muted: #4A5363; --soft: #F3F6FB; --line: #D5DDEB;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: 'IBM Plex Sans KR', system-ui, sans-serif; color: var(--ink); }
+a { color: inherit; text-decoration: none; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+/* 위쪽 연보라 띠 */
+.band { background: var(--band); }
+.top { display: flex; align-items: center; gap: 12px; padding: 16px 0; flex-wrap: wrap; }
+.logo { font-weight: 700; font-size: 18px; margin-right: auto; }
+.pill { padding: 10px 18px; border-radius: 999px; background: #fff; font-weight: 600; font-size: 15px; }
+.hero h1 { margin: 8px 0 4px; font-size: 40px; }
+.hero p { margin: 0; padding-bottom: 8px; color: #2B3240; }
+
+/* 아이콘 메뉴 */
+.quick { background: linear-gradient(var(--band) 0 96px, #fff 96px); }
+.quick .wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; padding-top: 28px; align-items: start; }
+.quick a { display: flex; flex-direction: column; align-items: center; gap: 14px; font-size: 19px; font-weight: 600; }
+.quick a:nth-child(even) { margin-top: 28px; }
+.tile { width: 140px; height: 140px; background: #fff; border: 2px solid var(--orange); border-radius: 28px; display: flex; align-items: center; justify-content: center; }
+
+/* 본문 */
+main.wrap { padding-top: 40px; padding-bottom: 56px; display: flex; flex-direction: column; gap: 40px; }
+.row { display: flex; flex-wrap: wrap; gap: 28px; }
+.grow { flex: 1 1 560px; min-width: 0; }
+
+/* 날짜 띠 */
+.month { display: flex; flex-wrap: wrap; background: var(--soft); border-radius: 28px; overflow: hidden; }
+.month h2 { margin: 0; background: var(--teal); color: #fff; padding: 22px 26px; border-radius: 28px; font-size: 30px; font-weight: 500; }
+#date-strip { list-style: none; margin: 0; padding: 10px; display: flex; gap: 2px; overflow-x: auto; flex: 1 1 300px; min-width: 0; }
+#date-strip li { flex: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; position: relative; }
+#date-strip li.sun { color: #C8344F; }
+#date-strip li.sat { color: var(--indigo); }
+#date-strip li.today { background: var(--today); color: #fff; font-weight: 700; }
+#date-strip li.has-event::after { content: ''; position: absolute; bottom: 0; width: 5px; height: 5px; border-radius: 50%; background: var(--today); }
+
+/* 다가오는 일정 */
+#events { list-style: none; margin: 24px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px 20px; }
+#events li { display: flex; align-items: center; gap: 12px; font-size: 17px; }
+.chip { flex: none; min-width: 70px; text-align: center; padding: 8px 14px; border-radius: 999px; background: var(--soft); font-weight: 700; }
+
+/* 노란 시험 카드 */
+.dday-card { flex: 1 1 340px; position: relative; overflow: hidden; background: var(--yellow); border-radius: 28px; padding: 28px 30px; }
+.dday-card::after { content: ''; position: absolute; right: -60px; bottom: -80px; width: 240px; height: 240px; border-radius: 50%; background: #EAB94A; }
+.dday-card > * { position: relative; z-index: 1; }
+.dday-card h2 { margin: 0 0 16px; font-size: 24px; }
+#exam-name { display: inline-block; margin: 0; background: #fff; border-radius: 14px; padding: 10px 18px; font-size: 18px; font-weight: 600; }
+#exam-dday { margin: 18px 0 6px; font-size: 88px; line-height: 1; font-weight: 700; }
+#exam-range { margin: 0; font-size: 17px; }
+
+/* 공지 */
+.news h2 { margin: 0 0 16px; font-size: 26px; color: var(--indigo); }
+#notice-list { list-style: none; margin: 0; padding: 0; }
+#notice-list li { display: flex; gap: 12px; align-items: center; min-height: 52px; border-bottom: 1px solid var(--line); font-size: 16px; }
+#notice-list .title { flex: 1; }
+#notice-list .date { color: var(--muted); }
+
+/* 파란 반 선택 칸 */
+#pick { flex: 1 1 380px; background: var(--blue); color: #fff; border-radius: 28px; padding: 28px; }
+#pick h2 { margin: 0; font-size: 24px; }
+#pick p { margin: 6px 0 18px; color: var(--band); }
+#grade-buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+#grade-buttons button { min-height: 44px; border-radius: 999px; border: 2px solid rgba(255,255,255,.4); background: transparent; color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
+#grade-buttons button[aria-pressed="true"] { background: #fff; color: var(--blue); border-color: #fff; }
+#class-buttons { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+#class-buttons a { min-height: 52px; display: flex; align-items: center; justify-content: center; background: #fff; color: var(--ink); border-radius: 14px; font-weight: 600; }
+
+footer { background: var(--band); padding: 24px 0; font-size: 14px; color: #2B3240; }
+
+/* 휴대폰 화면 */
+@media (max-width: 640px) {
+  .hero h1 { font-size: 24px; }
+  .quick .wrap { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .quick a { font-size: 13px; gap: 6px; }
+  .quick a:nth-child(even) { margin-top: 14px; }
+  .tile { width: 72px; height: 72px; border-radius: 12px; }
+  .tile svg { width: 34px; height: 34px; }
+  .month, .month h2, .dday-card, #pick { border-radius: 12px; }
+  .month h2 { font-size: 18px; padding: 12px 14px; }
+  #exam-dday { font-size: 46px; }
+  #class-buttons a { min-height: 44px; }
+}
