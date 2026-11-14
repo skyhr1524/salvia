@@ -6,6 +6,31 @@
   <title>샐비어 캘린더</title>
 </head>
 <body>
-  <h1>사이트가 열렸어요!</h1>
+  <h1>샐비어 캘린더</h1>
+  <p>다가오는 시험</p>
+  <h2 id="exam-name">불러오는 중…</h2>
+  <p id="exam-dday" style="font-size: 48px; font-weight: bold;"></p>
+
+  <script type="module">
+    import { supabase } from './js/supabase.js';
+
+    // 창고의 exams 시트에서 시험 하나 꺼내 오기
+    const { data, error } = await supabase
+      .from('exams')
+      .select('*')
+      .order('start_date')
+      .limit(1);
+
+    if (error) {
+      document.querySelector('#exam-name').textContent = '연결 실패: ' + error.message;
+    } else {
+      const exam = data[0];
+      // 오늘부터 시험 날까지 며칠 남았는지 계산
+      const today = new Date(new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' }));
+      const days = Math.round((new Date(exam.start_date) - today) / 86400000);
+      document.querySelector('#exam-name').textContent = exam.name;
+      document.querySelector('#exam-dday').textContent = 'D-' + days;
+    }
+  </script>
 </body>
 </html>
