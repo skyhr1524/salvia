@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>관리자 · 샐비어 캘린더</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=3">
+</head>
+<body>
+  <div class="band">
+    <div class="wrap">
+      <header class="top">
+        <a class="logo" href="index.html">샐비어 캘린더 · 관리자</a>
+        <span id="admin-label"></span>
+        <button type="button" id="logout" class="pill" style="border:0;font:inherit;cursor:pointer">로그아웃</button>
+      </header>
+      <h1 class="page-title">새 게시물 올리기</h1>
+      <p class="sub" style="padding-bottom:16px">올린 내용은 선택한 학년·반 학생 화면에 바로 보여요.</p>
+    </div>
+  </div>
+
+  <main class="wrap narrow">
+    <form id="post-form" class="card form">
+      <fieldset class="kind-group">
+        <legend>게시물 종류</legend>
+        <label><input type="radio" name="kind" value="range"> 시험범위</label>
+        <label><input type="radio" name="kind" value="task" checked> 수행평가</label>
+        <label><input type="radio" name="kind" value="notice"> 공지</label>
+      </fieldset>
+
+      <div class="row2">
+        <div>
+          <label for="grade">학년</label>
+          <select id="grade">
+            <option value="all">학교 전체</option>
+            <option value="1">1학년</option><option value="2">2학년</option><option value="3">3학년</option>
+          </select>
+        </div>
+        <div>
+          <label for="cls">반</label>
+          <select id="cls"><option value="all">학년 전체</option></select>
+        </div>
+      </div>
+
+      <label for="subject">과목</label>
+      <select id="subject" name="subject"></select>
+      <div class="row2">
+        <input id="new-subject" placeholder="새 과목 이름" aria-label="새 과목 이름">
+        <button type="button" id="add-subject" class="btn gray">과목 추가하기</button>
+      </div>
+
+      <label for="title">제목</label>
+      <input id="title" name="title" required placeholder="예: 국어 비평문 쓰기">
+
+      <label for="due">날짜 (시험일 · 마감일 · 공지 내릴 날)</label>
+      <input id="due" name="due" type="date" required>
+
+      <label for="body">내용</label>
+      <textarea id="body" name="body" rows="5" placeholder="범위, 준비물, 제출 방법 등"></textarea>
+
+      <label><input type="checkbox" name="important" style="min-height:auto"> 중요 공지로 표시</label>
+
+      <label for="photos">사진 첨부 (최대 5장, 한 장에 10MB까지)</label>
+      <input id="photos" name="photos" type="file" accept="image/*" multiple>
+
+      <p class="msg">이 게시물은 날짜로부터 5일 뒤 자동으로 삭제돼요.</p>
+      <button type="submit" class="btn">게시하기</button>
+      <p id="post-msg" role="status"></p>
+    </form>
+
+    <section id="approvals" class="card" hidden style="margin-top:24px">
+      <h2>입력 담당 신청</h2>
+      <ul id="request-list" class="list"></ul>
+    </section>
+
+    <section class="card" style="margin-top:24px">
+      <h2>내가 올린 글</h2>
+      <ul id="my-posts" class="list"></ul>
+    </section>
+
+    <section class="card" style="margin:24px 0 56px">
+      <h2>들어온 제보</h2>
+      <ul id="reports" class="list"></ul>
+    </section>
+  </main>
+
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>
