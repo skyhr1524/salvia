@@ -127,3 +127,59 @@ if (me.role === 'teacher') {
   });
   loadRequests();
 }
+// 선생님만: 시험 일정 바꾸기
+if (me.role === 'teacher') {
+  $('#exams').hidden = false;
+  const box = 'min-height:40px;padding:0 10px;border:1px solid var(--line);border-radius:10px;font:inherit;';
+
+  // 시험 목록 불러오기 (각 줄에서 바로 고칠 수 있게)
+  async function loadExams() {
+    const { data } = await supabase.from('exams').select('*').order('start_date');
+    $('#exam-list').innerHTML = (data ?? []).map((x) => `
+      <li data-id="${x.id}">
+        <input class="ex-name" value="${esc(x.name)}" aria-label="시험 이름" style="${box}flex:1 1 160px">
+        <input class="ex-start" type="date" value="${x.start_date}" aria-label="첫날" style="${box}">
+        <input class="ex-end" type="date" value="${x.end_date}" aria-label="마지막 날" style="${box}">
+        <button type="button" class="btn small" data-act="save">저장</button>
+        <button type="button" class="btn small gray" data-act="del">삭제</button>
+      </li>`).join('') || '<li>등록된 시험이 없어요.</li>';
+  }
+
+  // 저장 / 삭제 버튼
+  $('#exam-list').addEventListener('click', async (e) => {
+    const act = e.target.dataset.act;
+    if (!act) return;
+    const li = e.target.closest('li');
+    const id = li.dataset.id;
+
+    if (act === 'del') {
+      if (!confirm('이 시험을 지울까요?')) return;
+      const { error } = await supabase.from('exams').delete().eq('id', id);
+      if (error) alert('삭제 실패: ' + error.message);
+    } else {
+      const name = li.querySelector('.ex-name').value.trim();
+      const start = li.querySelector('.ex-start').value;
+      const end = li.querySelector('.ex-end').value;
+      if (!name || !start || !end) return alert('이름과 날짜를 모두 채워 주세요.');
+      if (end < start) return alert('마지막 날이 첫날보다 빨라요.');
+      const { error } = await supabase.from('exams')
+        .update({ name, start_date: start, end_date: end }).eq('id', id);
+      alert(error ? '저장 실패: ' + error.message : '저장했어요.');
+    }
+    loadExams();
+  });
+
+  // 새 시험 추가
+  $('#exam-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = $('#ex-name').value.trim();
+    const start = $('#ex-start').value;
+    const end = $('#ex-end').value;
+    if (end < start) return ($('#exam-msg').textContent = '마지막 날이 첫날보다 빨라요.');
+    const { error } = await supabase.from('exams').insert({ name, start_date: start, end_date: end });
+    $('#exam-msg').textContent = error ? '추가 실패: ' + error.message : '추가했어요.';
+    if (!error) { e.target.reset(); loadExams(); }
+  });
+
+  loadExams();
+}
